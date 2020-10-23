@@ -1,6 +1,6 @@
 module golang-gc-example
 
-go 1.15
+go 1.13
 
 require (
 	github.com/pkg/profile v1.5.0

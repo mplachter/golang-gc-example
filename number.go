@@ -5,6 +5,11 @@ import (
 	"sync"
 )
 
+const (
+	randomNumberMax = 1000
+	randomNumberMin = 1
+)
+
 // NumberStorage for random number storage
 type NumberStorage struct {
 	numbers []int
@@ -69,12 +74,12 @@ func (nm *NumberStorage) worker(wg *sync.WaitGroup, worker int, batchCount int) 
 // GetRandomNumbers a function that gets some random numbers
 func GetRandomNumbers(worker int, batchCount int) []int {
 
-	randNumbers := make([]int, 0, 1000)
+	randNumbers := make([]int, 0, 10000)
 
 	num := batchCount * worker
 	rand.Seed(int64(num))
 
-	times := num / (rand.Intn(num) + 1)
+	times := rand.Intn(num) + 1
 
 	for i := 0; i <= times; i++ {
 		randNumbers = append(randNumbers, (rand.Intn(randomNumberMax) + randomNumberMin))
