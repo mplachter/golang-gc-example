@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"sync"
 )
@@ -23,6 +24,8 @@ func (nm *NumberStorage) HighestOccuringNumbers() []int {
 	numberMap := make(map[int]int)
 	highestNumbers := make(map[int]int)
 	lastHighItem := 0
+
+	fmt.Printf("Amount of Numbers: %d\n", len(nm.numbers))
 
 	nm.lock.Lock()
 	defer nm.lock.Unlock()
@@ -74,12 +77,16 @@ func (nm *NumberStorage) worker(wg *sync.WaitGroup, worker int, batchCount int) 
 // GetRandomNumbers a function that gets some random numbers
 func GetRandomNumbers(worker int, batchCount int) []int {
 
-	randNumbers := make([]int, 0, 10000)
-
 	num := batchCount * worker
 	rand.Seed(int64(num))
 
-	times := rand.Intn(num) + 1
+	times := (rand.Intn(num) + 1) * 100
+
+	// Correct Way
+	randNumbers := make([]int, 0, times)
+
+	// Wrong Way
+	// randNumbers := make([]int, 0, times)
 
 	for i := 0; i <= times; i++ {
 		randNumbers = append(randNumbers, (rand.Intn(randomNumberMax) + randomNumberMin))
