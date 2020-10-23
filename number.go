@@ -17,6 +17,7 @@ type NumberStorage struct {
 func (nm *NumberStorage) HighestOccuringNumbers() []int {
 	numberMap := make(map[int]int)
 	highestNumbers := make(map[int]int)
+	lastHighItem := 0
 
 	nm.lock.Lock()
 	defer nm.lock.Unlock()
@@ -29,14 +30,17 @@ func (nm *NumberStorage) HighestOccuringNumbers() []int {
 		}
 		if len(highestNumbers) == 0 {
 			highestNumbers[num] = numberMap[num]
+			lastHighItem = num
 		}
 		// If the number is already in the map make a new map
 		// Since its now the highest
 		if _, ok := highestNumbers[num]; ok {
 			highestNumbers = map[int]int{num: numberMap[num]}
-		} else if numberMap[num] == numberMap[highestNumbers[0]] {
+			lastHighItem = num
+		} else if numberMap[num] == highestNumbers[lastHighItem] {
 			// Lets add the entry to the number map since it tied
 			highestNumbers[num] = numberMap[num]
+			lastHighItem = num
 		}
 	}
 
